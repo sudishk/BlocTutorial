@@ -1,16 +1,16 @@
 import 'package:block_app/user_events.dart';
-import 'package:block_app/users_state.dart';
+import 'package:block_app/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserBloc extends Bloc<UserEvents, UsersState> {
-  UserBloc() : super(UsersState("Ram")) {
-
-    on<NextUserEvent>((event, emit) {
-      emit(UsersState("Mohan"));
+class UserBloc extends Bloc<UserEvent, UserState>{
+  UserBloc(): super(UserState(name: "Ram")){
+    on<ChangeUserEvent>((event, emit) {
+      emit(UserState(name: "New User Mohan"));
     },);
 
-    on<PrevUserEvent>((event, emit) {
-      emit(UsersState("Sohan"));
+    on<ChangeUserEvent>((event, emit) {
+      emit(UserState(name: "New User Mohan"));
     },);
   }
+
 }

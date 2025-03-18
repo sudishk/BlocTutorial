@@ -1,5 +1,7 @@
-abstract class UserEvents {}
+abstract class UserEvent{
 
-class NextUserEvent extends UserEvents {}
+}
 
-class PrevUserEvent extends UserEvents {}
+class ChangeUserEvent extends UserEvent{
+
+}
