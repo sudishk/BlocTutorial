@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -59,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final TextEditingController controller = TextEditingController();
 
   void _incrementCounter() {
     setState(() {
@@ -108,22 +110,49 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: "Enter Number"),
+            ),
+
             const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
 
-            BlocBuilder<UserBloc, UserState>(builder: (context, state) => Text(state.name),),
+            // BlocBuilder<UserBloc, UserState>(builder: (context, state) => Text(state.name),),
+            BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+
+              if(state is UserLoadingState) return Container(child: CircularProgressIndicator(),);
+               if( state is UserErrorState) return Text(state.error);
+              if (state is UserLoadedState) {
+                if(state.users.isEmpty) return Text("No data");
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: state.users.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(title: Text(state.users[index]['name']));
+                    },
+                  ),
+                );
+              }
+              return Container();
+            },),
 
             ElevatedButton(onPressed: () {
-              context.read<UserBloc>().add(ChangeUserEvent());
+              context.read<UserBloc>().add(ChangeUserEvent(controller.text.toString()));
             }, child: Text("Change User"))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          context.read<UserBloc>().add(GetUserData());
+
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
