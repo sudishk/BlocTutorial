@@ -1,4 +1,5 @@
 class UsersState {
   final String name;
-  UsersState(this.name);
+  final String email;
+  UsersState(this.name, this.email);
 }
