@@ -1,7 +1,9 @@
-abstract class UserApiEvent{
+abstract class UserApiEvents {
 
 }
 
-class GetUsers extends UserApiEvent{
+class GetUserEvent extends UserApiEvents{
+
 
 }
+

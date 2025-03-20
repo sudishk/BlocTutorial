@@ -1,5 +1,6 @@
 class UserApiState{
   final String message;
+
   UserApiState({required this.message});
 }
 
@@ -14,5 +15,7 @@ class UserApiLoadedState extends UserApiState{
 
 class UserApiErrorState extends UserApiState{
   final String error;
-  UserApiErrorState({required super.message, required this.error});
+  UserApiErrorState({required super.message,required this.error});
+
 }
+
