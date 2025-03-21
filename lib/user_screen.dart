@@ -2,6 +2,7 @@
 import 'package:block_app/user_api_bloc.dart';
 import 'package:block_app/user_api_events.dart';
 import 'package:block_app/user_api_state.dart';
+import 'package:block_app/user_details/user_details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,22 @@ class _UserScreenState extends State<UserScreen> {
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
-            return ListTile(leading: Icon(CupertinoIcons.person), title: Text(data[index]["name"]),);
+            return InkWell(
+                 onTap:() {
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) => BlocProvider.value(
+                         value: BlocProvider.of<UserApiBloc>(context),
+                         child: UserDetailsScreen(user: data[index],),
+                       ),
+                     ),
+                   );
+
+                   // Navigator.of(context).push( MaterialPageRoute(builder: (context) => UserDetailsScreen(user: data[index],),));
+                   // Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailsScreen(user: data[index],),));
+                 },
+                child: ListTile(leading: Icon(CupertinoIcons.person), title: Text(data[index]["name"]),));
           },);
         }
 
